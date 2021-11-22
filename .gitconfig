@@ -1,0 +1,8 @@
+[alias]
+    st = status
+    df = diff
+    co = checkout
+    ci = commit --verbose
+[user]
+    name = bajelidze
+    email = nflashy1@gmail.com
