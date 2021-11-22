@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 # shellcheck disable=SC2016,SC2034,SC1004,SC1091
 
-SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-BIN_DIR="$HOME/bin"
-
 make_home_symlink() {
   local file_name=$1
   ln -s "$SCRIPT_DIR/$file_name" "$HOME/$file_name"
@@ -50,21 +47,32 @@ install_nvim_plugins() {
   nvim +PlugInstall +qall
 }
 
-dotfiles=(
-  .tmux.conf
-  .bash_aliases
-  .config/nvim
-  .config/lf
-)
+main() {
+  SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+  BIN_DIR="$HOME/bin"
 
-mkdir "$HOME/.config"
+  dotfiles=(
+    .tmux.conf
+    .bash_aliases
+    .config/nvim
+    .config/lf
+  )
 
-for dotfile in "${dotfiles[@]}"; do
-  make_home_symlink "$dotfile"
-done
+  mkdir "$HOME/.config"
 
-make_bin
-set_git_aliases
-install_efm
-install_from_github neovim/neovim nvim.appimage nvim
-install_nvim_plugins
+  for dotfile in "${dotfiles[@]}"; do
+    make_home_symlink "$dotfile"
+  done
+
+  for bin in bin/*; do
+    cp "$SCRIPT_DIR/$bin" "$BIN_DIR"
+  done
+
+  make_bin
+  set_git_aliases
+  install_efm
+  install_from_github neovim/neovim nvim.appimage nvim
+  install_nvim_plugins
+}
+
+main
