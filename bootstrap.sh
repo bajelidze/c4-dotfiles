@@ -6,7 +6,7 @@ BIN_DIR="$HOME/bin"
 
 make_home_symlink() {
   local file_name=$1
-  ln -s "$SCRIPT_DIR/$1" "$HOME/$1" &> /dev/null
+  ln -s "$SCRIPT_DIR/$file_name" "$HOME/$file_name"
 }
 
 make_bin() {
@@ -27,6 +27,8 @@ install_efm() {
 
 install_from_github() {
   local repository=$1; local name=$2; local new_name=$3
+  [[ -z "$new_name" ]] && new_name="$name"
+
   curl -s "https://api.github.com/repos/$repository/releases/latest" \
     | jq -r ".assets[] | select(.name==\"$name\") | .browser_download_url" \
     | wget -qi -
@@ -54,6 +56,8 @@ dotfiles=(
   .config/nvim
   .config/lf
 )
+
+mkdir "$HOME/.config"
 
 for dotfile in "${dotfiles[@]}"; do
   make_home_symlink "$dotfile"
