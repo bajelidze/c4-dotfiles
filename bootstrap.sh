@@ -2,6 +2,7 @@
 # shellcheck disable=SC2016,SC2034,SC1004,SC1091
 
 SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+BIN_DIR="$HOME/bin"
 
 make_home_symlink() {
   local file_name=$1
@@ -9,28 +10,36 @@ make_home_symlink() {
 }
 
 make_bin() {
-  mkdir "$HOME/bin"
-  echo 'export PATH=$HOME/bin:$PATH' >> "$HOME/.bash_profile"
+  mkdir "$BIN_DIR"
+  echo 'export PATH='"$BIN_DIR"':$PATH' >> "$HOME/.bash_profile"
   source "$HOME/.bash_profile"
 }
 
 # efm-langserver is needed for the shellcheck plugin for nvim
 install_efm() {
-  go install github.com/mattn/efm-langserver@latest
-  echo 'export PATH=$HOME/go/bin:$PATH' >> .bash_profile
+  local name="efm-langserver_v0.0.38_linux_amd64"
+  wget -q "https://github.com/mattn/efm-langserver/releases/download/v0.0.38/$name.tar.gz"
+  tar xf "$name.tar.gz"
+  rm "$name.tar.gz"
+  mv "$name/efm-langserver" "$BIN_DIR"
+  rm -rf "$name"
 }
 
 install_from_github() {
-  local repository=$1; local name=$2
+  local repository=$1; local name=$2; local new_name=$3
   curl -s "https://api.github.com/repos/$repository/releases/latest" \
     | jq -r ".assets[] | select(.name==\"$name\") | .browser_download_url" \
     | wget -qi -
   chmod +x "$name"
-  mv "$name" "$HOME/bin"
+  mv "$name" "$BIN_DIR/$new_name"
 }
 
 set_git_aliases() {
-  cat .git_aliases >> .gitconfig
+  if [[ -f "$HOME/.gitconfig" ]]; then
+    cat .git_aliases >> .gitconfig
+  else
+    cat .git_aliases > .gitconfig
+  fi
 }
 
 install_nvim_plugins() {
@@ -53,5 +62,5 @@ done
 make_bin
 set_git_aliases
 install_efm
-install_from_github neovim/neovim nvim.appimage
+install_from_github neovim/neovim nvim.appimage nvim
 install_nvim_plugins
