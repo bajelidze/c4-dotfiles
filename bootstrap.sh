@@ -64,11 +64,12 @@ main() {
     make_home_symlink "$dotfile"
   done
 
+  make_bin
+
   for bin in bin/*; do
-    cp "$SCRIPT_DIR/$bin" "$BIN_DIR"
+    cp "$bin" "$BIN_DIR"
   done
 
-  make_bin
   set_git_aliases
   install_efm
   install_from_github neovim/neovim nvim.appimage nvim
