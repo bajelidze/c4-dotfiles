@@ -70,7 +70,7 @@ main() {
     cp "$bin" "$BIN_DIR"
   done
 
-  set_git_aliases
+  # set_git_aliases
   install_efm
   install_from_github neovim/neovim nvim.appimage nvim
   install_nvim_plugins
