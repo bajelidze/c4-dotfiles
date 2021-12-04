@@ -9,6 +9,7 @@ make_home_symlink() {
 make_bin() {
   mkdir "$BIN_DIR"
   echo 'export PATH='"$BIN_DIR"':$PATH' >> "$HOME/.bash_profile"
+  echo "export EDITOR=nvim" >> .bash_profile
   source "$HOME/.bash_profile"
 }
 
