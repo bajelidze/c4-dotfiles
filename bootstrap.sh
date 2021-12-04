@@ -22,6 +22,14 @@ install_efm() {
   rm -rf "$name"
 }
 
+install_lf() {
+  local name="lf-linux-amd64.tar.gz"
+  wget -q "https://github.com/gokcehan/lf/releases/download/r26/$name"
+  tar xf "$name"
+  rm "$name"
+  mv "lf" "$BIN_DIR"
+}
+
 install_from_github() {
   local repository=$1; local name=$2; local new_name=$3
   [[ -z "$new_name" ]] && new_name="$name"
@@ -72,6 +80,7 @@ main() {
 
   # set_git_aliases
   install_efm
+  install_lf
   install_from_github neovim/neovim nvim.appimage nvim
   install_nvim_plugins
 }
