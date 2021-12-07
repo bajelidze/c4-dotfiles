@@ -76,7 +76,7 @@ main() {
   make_bin
 
   for bin in bin/*; do
-    cp "$bin" "$BIN_DIR"
+    mv "$bin" "$BIN_DIR"
   done
 
   # set_git_aliases
