@@ -56,6 +56,16 @@ install_nvim_plugins() {
   nvim --headless +PlugInstall +qall
 }
 
+install_dwm_tmux() {
+  ( cd dwm.tmux && make )
+}
+
+create_local() {
+  mkdir -p "$HOME/.local/bin"
+  mkdir -p "$HOME/.local/lib"
+  mkdir "$HOME/.config"
+}
+
 main() {
   SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
   BIN_DIR="$HOME/bin"
@@ -67,7 +77,7 @@ main() {
     .config/lf
   )
 
-  mkdir "$HOME/.config"
+  create_local
 
   for dotfile in "${dotfiles[@]}"; do
     make_home_symlink "$dotfile"
@@ -80,6 +90,7 @@ main() {
   done
 
   # set_git_aliases
+  install_dwm_tmux
   install_efm
   install_lf
   install_from_github neovim/neovim nvim.appimage nvim
