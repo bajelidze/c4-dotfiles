@@ -57,7 +57,8 @@ install_nvim_plugins() {
 }
 
 install_dwm_tmux() {
-  ( cd dwm.tmux && make )
+  mv dwm.tmux/bin/dwm.tmux "$HOME/.local/bin"
+  mv dwm.tmux/lib/dwm.tmux "$HOME/.local/lib"
 }
 
 create_local() {
