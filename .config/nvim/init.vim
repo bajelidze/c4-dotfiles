@@ -201,7 +201,12 @@ filetype plugin on
 " Find files using Telescope command-line sugar.
 nnoremap ff <cmd>Telescope find_files<cr>
 nnoremap fg <cmd>Telescope live_grep<cr>
-nnoremap fb <cmd>Telescope buffers<cr>
+nnoremap fd <cmd>Telescope diagnostics<cr>
+nnoremap fc <cmd>Telescope git_commits<cr>
+nnoremap fC <cmd>Telescope git_bcommits<cr>
+nnoremap fb <cmd>Telescope git_branches<cr>
+nnoremap fv <cmd>Telescope git_status<cr>
+nnoremap fs <cmd>Telescope git_stash<cr>
 
 " Nvim tree stuff
 let g:nvim_tree_special_files = {}
@@ -214,6 +219,10 @@ vnoremap p pgvy
 noremap <silent> <C-S>          :update<CR>
 vnoremap <silent> <C-S>         <C-C>:update<CR>
 inoremap <silent> <C-S>         <C-O>:update<CR>
+
+" Git blame
+nnoremap <C-K> :Gitsigns toggle_current_line_blame<CR>
+nnoremap U :Gitsigns reset_hunk<CR>
 
 let g:goimports_simplify = 1 " Enables -s flag for gofmt
 
