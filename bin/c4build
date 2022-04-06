@@ -1,0 +1,17 @@
+#!/bin/env bash
+
+set -e
+
+fold="$1"
+
+[[ -z "$fold" ]] && { echo "error: folder unspecified"; exit 1; }
+
+rm -rf .build
+c4 make
+cp "$HOME/.ccc/x/u/ib4290/$fold-64u/bin/c4" bin
+
+if [[ $2 == "-f" ]]; then
+  bin/c4.sh __go update
+  bin/c4 make
+  cp "$HOME/.ccc/x/u/ib4290/$fold-64u/bin/c4" bin
+fi
