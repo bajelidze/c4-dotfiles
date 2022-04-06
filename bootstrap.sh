@@ -61,7 +61,7 @@ install_dwm_tmux() {
     && chmod +x "$HOME/bin/tmux"
 
   mv dwm.tmux/bin/dwm.tmux "$HOME/bin"
-  mv dwm.tmux/lib/dwm.tmux "$HOME/lib"
+  mv dwm.tmux/lib/dwm.tmux "$HOME/.local/lib"
 }
 
 create_local() {
