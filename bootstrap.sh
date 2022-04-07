@@ -57,8 +57,8 @@ install_nvim_plugins() {
 }
 
 install_dwm_tmux() {
-  wget 'https://github.com/nelsonenzo/tmux-appimage/releases/download/3.2a/tmux.appimage' -O "$HOME/bin/tmux" \
-    && chmod +x "$HOME/bin/tmux"
+  wget 'https://github.com/nelsonenzo/tmux-appimage/releases/download/3.2a/tmux.appimage' -O "$HOME/bin/tmux"
+  chmod +x "$HOME/bin/tmux"
 
   mv dwm.tmux/bin/dwm.tmux "$HOME/bin"
   mv dwm.tmux/lib/dwm.tmux "$HOME/.local/lib"
