@@ -2,16 +2,43 @@
 
 set -e
 
-fold="$1"
+declare _OPTION_UPDATE
 
-[[ -z "$fold" ]] && { echo "error: folder unspecified"; exit 1; }
+help() {
+  printf "Usage:\n  c4build [-u]\n"
+}
 
-rm -rf .build
-c4 make
-cp "$HOME/.ccc/x/u/ib4290/$fold-64u/bin/c4" bin
+optparse() {
+  while getopts "uh" opt; do
+    case "$opt" in
+      u)
+        _OPTION_UPDATE=true
+        ;;
+      h)
+        help; exit
+        ;;
+      *)
+        help >&2; exit 1
+        ;;
+    esac
+  done
+}
 
-if [[ $2 == "-f" ]]; then
-  bin/c4.sh __go update
-  bin/c4 make
-  cp "$HOME/.ccc/x/u/ib4290/$fold-64u/bin/c4" bin
-fi
+main() {
+  optparse "$@"
+
+  local link_dir
+
+  rm -rf .build
+  c4 make
+  link_dir="$(c4 info . Local-Linkdir)"
+  cp "$HOME/.ccc$link_dir/bin/c4" bin
+
+  if [[ $_OPTION_UPDATE == true ]]; then
+    bin/c4.sh __go update
+    bin/c4 make
+    cp "$HOME/.ccc$link_dir/bin/c4" bin
+  fi
+}
+
+main "$@"
