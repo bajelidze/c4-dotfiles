@@ -70,7 +70,17 @@ create_local() {
   mkdir "$HOME/.config"
 }
 
+install_jq() {
+  sudo apt install jq
+}
+
+install_shellcheck() {
+  sudo apt install shellcheck
+}
+
 main() {
+  install_jq
+
   SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
   BIN_DIR="$HOME/bin"
 
@@ -99,6 +109,7 @@ main() {
   install_lf
   install_from_github neovim/neovim nvim.appimage nvim
   install_nvim_plugins
+  install_shellcheck
 }
 
 main
