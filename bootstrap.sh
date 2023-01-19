@@ -71,16 +71,18 @@ create_local() {
 }
 
 install_jq() {
-  sudo apt install jq
+  wget 'https://github.com/stedolan/jq/releases/download/jq-1.6/jq-linux64' -O "$HOME/bin/jq"
+  chmod +x "$HOME/bin/jq"
 }
 
 install_shellcheck() {
-  sudo apt install shellcheck
+  wget 'https://github.com/koalaman/shellcheck/releases/download/v0.9.0/shellcheck-v0.9.0.darwin.x86_64.tar.xz'
+  tar xf shellcheck-v0.9.0.darwin.x86_64.tar.xz
+  mv shellcheck-v0.9.0/shellcheck "$HOME/bin/shellcheck"
+  chmod +x "$HOME/bin/shellcheck"
 }
 
 main() {
-  install_jq
-
   SCRIPT_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
   BIN_DIR="$HOME/bin"
 
@@ -104,10 +106,12 @@ main() {
   done
 
   # set_git_aliases
+  install_jq
   install_dwm_tmux
   install_efm
   install_lf
   install_from_github neovim/neovim nvim.appimage nvim
+  install_from_github stedolan/jq nvim.appimage nvim
   install_nvim_plugins
   install_shellcheck
 }
