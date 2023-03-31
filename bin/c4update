@@ -1,7 +1,14 @@
 #!/bin/bash
 
+set -e
+
 _update() {
   local ccc="$1"
+
+  if [[ -z "$ccc" ]]; then
+    echo "Specify the c4 working copy to update to" >&2
+    return 1
+  fi
 
   echo "Updating..."
 
