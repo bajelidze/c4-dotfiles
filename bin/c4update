@@ -1,0 +1,20 @@
+#!/bin/bash
+
+_update() {
+  local ccc="$1"
+
+  echo "Updating..."
+
+  sudo systemctl stop c4
+  sudo systemctl stop c4_cloud_command
+
+  c4 fetch -r "$ccc"
+  sudo cp "$HOME/.ccc$(c4 info "$ccc" Local-Linkdir)/bin/c4" "$(which c4)"
+
+  sudo systemctl start c4
+  sudo systemctl start c4_cloud_command --no-block
+
+  echo "Updated to $ccc" >&2
+}
+
+_update "$@"
